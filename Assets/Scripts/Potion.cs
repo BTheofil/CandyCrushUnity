@@ -19,6 +19,12 @@ public class Potion : MonoBehaviour {
         xIndex = x;
         yIndex = y;
     }
+
+    public void SetIndicies(int _x, int _y) {
+        xIndex = _x;
+        yIndex = _y;
+    }
+
 }
 
 public enum PotionType {

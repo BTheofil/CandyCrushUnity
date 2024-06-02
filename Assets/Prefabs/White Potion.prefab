@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8103641539495417334}
   - component: {fileID: 3026938582096597073}
   - component: {fileID: 87896268943173124}
+  - component: {fileID: 4842775522564461000}
   m_Layer: 0
   m_Name: White Potion
   m_TagString: Untagged
@@ -106,3 +107,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4842775522564461000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930547338441292345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00fd46a3506a4146b330c3e183d1bd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionType: 4
+  xIndex: 0
+  yIndex: 0
+  isMatch: 0
+  isMoveing: 0
