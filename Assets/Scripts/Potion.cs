@@ -9,7 +9,7 @@ public class Potion : MonoBehaviour {
     public int xIndex;
     public int yIndex;
 
-    public bool isMatch;
+    public bool isMatched;
     public bool isMoveing;
 
     private Vector2 currentPos;
