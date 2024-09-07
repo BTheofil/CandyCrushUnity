@@ -110,9 +110,12 @@ public class PotionBoard : MonoBehaviour {
                         MatchResult matchedPotions = IsConnected(potion);
 
                         if (matchedPotions.connectedPotions.Count >= 3) {
-                            potionsToRemove.AddRange(matchedPotions.connectedPotions);
 
-                            foreach (Potion pot in matchedPotions.connectedPotions) 
+                            MatchResult superMatchedPotions = SuperMatched(matchedPotions);
+
+                            potionsToRemove.AddRange(superMatchedPotions.connectedPotions);
+
+                            foreach (Potion pot in superMatchedPotions.connectedPotions) 
                                 pot.isMatched = true;
 
                             hasMatched = true;
@@ -123,6 +126,52 @@ public class PotionBoard : MonoBehaviour {
         }
 
         return hasMatched;
+    }
+
+    private MatchResult SuperMatched(MatchResult _matchedPotions) {
+
+        if (_matchedPotions.direction == MatchDirection.Horizontal || _matchedPotions.direction == MatchDirection.LongHorizontal) {
+            foreach (Potion pot in _matchedPotions.connectedPotions) {
+                List<Potion> extraConnectedPotions = new();
+
+                CheckDirection(pot, new Vector2Int(0, 1), extraConnectedPotions);
+                CheckDirection(pot, new Vector2Int(0, -1), extraConnectedPotions);
+
+                if (extraConnectedPotions.Count >= 2) {
+                    Debug.Log("super horizontal match");
+                    extraConnectedPotions.AddRange(_matchedPotions.connectedPotions);
+                    return new MatchResult {
+                        connectedPotions = extraConnectedPotions,
+                        direction = MatchDirection.Super
+                    };
+                }
+            }
+            return new MatchResult {
+                connectedPotions = _matchedPotions.connectedPotions,
+                direction = _matchedPotions.direction
+            };
+        } else if (_matchedPotions.direction == MatchDirection.Vertical || _matchedPotions.direction == MatchDirection.LongVertical) {
+            foreach (Potion pot in _matchedPotions.connectedPotions) {
+                List<Potion> extraConnectedPotions = new();
+
+                CheckDirection(pot, new Vector2Int(1, 0), extraConnectedPotions);
+                CheckDirection(pot, new Vector2Int(-1, 0), extraConnectedPotions);
+
+                if (extraConnectedPotions.Count >= 2) {
+                    Debug.Log("super vertical match");
+                    extraConnectedPotions.AddRange(_matchedPotions.connectedPotions);
+                    return new MatchResult {
+                        connectedPotions = extraConnectedPotions,
+                        direction = MatchDirection.Super
+                    };
+                }
+            }
+            return new MatchResult {
+                connectedPotions = _matchedPotions.connectedPotions,
+                direction = _matchedPotions.direction
+            };
+        }
+        return null;
     }
 
     MatchResult IsConnected(Potion potion) {
