@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
             isGameEnded = true;
             backgroundPanel.SetActive(true);
             victoryPanel.SetActive(true);
+            PotionBoard.Instance.potionParent.SetActive(false);
             return;
         }
 
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
             isGameEnded = true;
             backgroundPanel.SetActive(true);
             losePanel.SetActive(true);
+            PotionBoard.Instance.potionParent.SetActive(false);
             return;
         }
     }

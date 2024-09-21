@@ -26,6 +26,9 @@ public class PotionBoard : MonoBehaviour {
     public GameObject potionParent;
 
     [SerializeField]
+    List<Potion> potionsToRemove = new();
+
+    [SerializeField]
     private Potion selectedPotion;
 
     [SerializeField]
@@ -84,7 +87,7 @@ public class PotionBoard : MonoBehaviour {
 
             }
         }
-        if (CheckBoard(false)) {
+        if (CheckBoard()) {
             InitializeBoard();
         }
     }
@@ -98,11 +101,16 @@ public class PotionBoard : MonoBehaviour {
         }
     }
 
-    public bool CheckBoard(bool _takeAction) {
+    public bool CheckBoard() {
+
+        if (GameManager.instance.isGameEnded) { 
+            return false;
+        }
+
         Debug.Log("Checking");
         bool hasMatched = false;
 
-        List<Potion> potionsToRemove = new();
+        potionsToRemove.Clear();
 
         foreach (Node nodePotion in potionBoard) {
             if (nodePotion.potion != null) {
@@ -135,20 +143,21 @@ public class PotionBoard : MonoBehaviour {
             }
         }
 
-        if (_takeAction) {
+        return hasMatched;
+    }
 
-            foreach (Potion potionToRemove in potionsToRemove) {
-                potionToRemove.isMatched = false;
-            }
-
-            RemoveAndRefill(potionsToRemove);
-
-            if (CheckBoard(false)) { 
-                CheckBoard(true);
-            }
+    public IEnumerator ProcessTurnOnMatchedBoard(bool _subtractMoves) {
+        foreach (Potion potionToRemove in potionsToRemove) {
+            potionToRemove.isMatched = false;
         }
 
-        return hasMatched;
+        RemoveAndRefill(potionsToRemove);
+        GameManager.instance.ProcessTurn(potionsToRemove.Count, _subtractMoves);
+        yield return new WaitForSeconds(0.4f);
+
+        if (CheckBoard()) {
+            StartCoroutine(ProcessTurnOnMatchedBoard(false));
+        }
     }
 
     private MatchResult SuperMatched(MatchResult _matchedPotions) {
@@ -333,11 +342,12 @@ public class PotionBoard : MonoBehaviour {
     private IEnumerator ProcessMatches(Potion _currentPotion, Potion _targetPotion) {
         yield return new WaitForSeconds(0.2f);
 
-        bool hasMatch = CheckBoard(true);
-
-        if (!hasMatch) {
+        if (CheckBoard()) {
+            StartCoroutine(ProcessTurnOnMatchedBoard(true));
+        } else {
             DoSwap(_currentPotion, _targetPotion);
         }
+
         isProcessingMove = false;
     }
 

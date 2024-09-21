@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &55352548
 RectTransform:
   m_ObjectHideFlags: 0
@@ -931,6 +931,7 @@ MonoBehaviour:
     - row: 000000000000
   potionsToDestroy: []
   potionParent: {fileID: 1087544012}
+  potionsToRemove: []
   selectedPotion: {fileID: 0}
   isProcessingMove: 0
 --- !u!4 &356570142
@@ -1132,7 +1133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &644593196
 RectTransform:
   m_ObjectHideFlags: 0
